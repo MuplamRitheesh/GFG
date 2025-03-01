@@ -1,0 +1,30 @@
+
+
+class Solution {
+    static String decodeString(String s) {
+        Stack<Integer> countStack = new Stack<>();
+        Stack<StringBuilder> stringStack = new Stack<>();
+        StringBuilder currentString = new StringBuilder();
+        int currentNum = 0;
+        
+        for (char c : s.toCharArray()) {
+            if (Character.isDigit(c)) {
+                currentNum = currentNum * 10 + (c - '0'); // Build the number
+            } else if (c == '[') {
+                countStack.push(currentNum);  // Push repeat count
+                stringStack.push(currentString); // Push current string
+                currentString = new StringBuilder(); // Reset
+                currentNum = 0; // Reset
+            } else if (c == ']') {
+                int repeatCount = countStack.pop(); // Get repeat count
+                StringBuilder decoded = stringStack.pop(); // Get previous string
+                decoded.append(currentString.toString().repeat(repeatCount)); // Append repeated substring
+                currentString = decoded; // Update the current string
+            } else {
+                currentString.append(c); // Append normal characters
+            }
+        }
+        
+        return currentString.toString();
+    }
+  }
