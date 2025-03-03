@@ -1,0 +1,14 @@
+class Solution {
+    public boolean isPalindrome(String str) {
+        int left = 0, right = str.length() - 1;
+        
+        while (left < right) {
+            if (str.charAt(left) != str.charAt(right)) {
+                return false; // If mismatch, not a palindrome
+            }
+            left++;
+            right--;
+        }
+        return true; // If no mismatches, it's a palindrome
+    }
+}
