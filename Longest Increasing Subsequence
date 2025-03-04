@@ -1,0 +1,21 @@
+
+class Solution {
+    static int lis(int arr[]) {
+        if (arr.length == 0) return 0;
+        
+        ArrayList<Integer> lisList = new ArrayList<>();
+
+        for (int num : arr) {
+            int pos = Collections.binarySearch(lisList, num);
+            if (pos < 0) pos = -(pos + 1); // Convert negative index to insertion point
+            
+            if (pos == lisList.size()) {
+                lisList.add(num);  // Append if it's greater than all elements
+            } else {
+                lisList.set(pos, num);  // Replace element at `pos` (maintaining order)
+            }
+        }
+        
+        return lisList.size();
+    }
+}
