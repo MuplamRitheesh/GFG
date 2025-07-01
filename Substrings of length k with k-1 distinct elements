@@ -1,0 +1,47 @@
+
+
+class Solution {
+    public int substrCount(String s, int k) {
+        if (s == null || s.length() < k) return 0;
+        
+        int count = 0;
+        Map<Character, Integer> freqMap = new HashMap<>();
+
+        // Process first window
+        for (int i = 0; i < k; i++) {
+            char c = s.charAt(i);
+            freqMap.put(c, freqMap.getOrDefault(c, 0) + 1);
+        }
+
+        if (freqMap.size() == k - 1) {
+            count++;
+        }
+
+        // Slide the window
+        for (int i = k; i < s.length(); i++) {
+            char outChar = s.charAt(i - k);
+            freqMap.put(outChar, freqMap.get(outChar) - 1);
+            if (freqMap.get(outChar) == 0) {
+                freqMap.remove(outChar);
+            }
+
+            char inChar = s.charAt(i);
+            freqMap.put(inChar, freqMap.getOrDefault(inChar, 0) + 1);
+
+            if (freqMap.size() == k - 1) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    // You can add a main method for testing
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        String s = "abac";
+        int k = 3;
+        int result = sol.substrCount(s, k);
+        System.out.println("Count: " + result); // Output should be 1
+    }
+}
