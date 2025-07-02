@@ -1,0 +1,32 @@
+import java.util.HashMap;
+
+class Solution {
+    public int totalElements(int[] arr) {
+        int left = 0, maxLen = 0;
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        for (int right = 0; right < arr.length; right++) {
+            map.put(arr[right], map.getOrDefault(arr[right], 0) + 1);
+
+            // Shrink window if more than 2 distinct elements
+            while (map.size() > 2) {
+                map.put(arr[left], map.get(arr[left]) - 1);
+                if (map.get(arr[left]) == 0) {
+                    map.remove(arr[left]);
+                }
+                left++;
+            }
+
+            // Update max length of valid window
+            maxLen = Math.max(maxLen, right - left + 1);
+        }
+
+        return maxLen;
+    }
+
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+        int[] arr = {1, 2, 1, 3, 4, 2, 2};  // Example input
+        System.out.println("Longest subarray length: " + sol.totalElements(arr));
+    }
+}
