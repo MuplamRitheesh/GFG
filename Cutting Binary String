@@ -1,0 +1,36 @@
+class Solution {
+    public int cuts(String s) {
+        int n = s.length();
+        int[] dp = new int[n + 1];
+        final int INF = 1000000000;
+
+        for (int i = 0; i <= n; i++) dp[i] = INF;
+        dp[0] = 0;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                String sub = s.substring(j, i);
+                if (isValid(sub)) {
+                    dp[i] = Math.min(dp[i], dp[j] + 1);
+                }
+            }
+        }
+
+        return (dp[n] == INF) ? -1 : dp[n];
+    }
+
+    // Check if binary string is valid and a power of 5
+    private boolean isValid(String s) {
+        if (s.charAt(0) == '0') return false; // no leading zeros
+        long num = Long.parseLong(s, 2); // convert binary to decimal
+        return isPowerOfFive(num);
+    }
+
+    private boolean isPowerOfFive(long n) {
+        if (n == 0) return false;
+        while (n % 5 == 0) {
+            n /= 5;
+        }
+        return n == 1;
+    }
+}
